@@ -1,16 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-        int[] nums = {1, 1, 2, 2, 2, 8};
 
-        StringBuilder builder = new StringBuilder();
-        for (int num : nums) builder.append(num - Integer.parseInt(tokenizer.nextToken())).append(" ");
-        System.out.println(builder);
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
+        List<Integer> fulls = Arrays.asList(1, 1, 2, 2, 2, 8);
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+        for (Integer full : fulls) {
+            result.append(full - Integer.parseInt(tokenizer.nextToken())).append(" ");
+        }
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
