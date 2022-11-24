@@ -1,15 +1,28 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(reader.readLine());
 
-        StringBuilder builder = new StringBuilder();
-        for (int i = 1; i <= num; i++)
-            builder.append(" ".repeat(num - i)).append("*".repeat(i)).append("\n");
-        System.out.println(builder);
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
+        int repeat = Integer.parseInt(reader.readLine());
+        for (int length = 1; length <= repeat; length++) {
+            result.append(" ".repeat(repeat - length))
+                    .append("*".repeat(length))
+                    .append("\n");
+        }
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
