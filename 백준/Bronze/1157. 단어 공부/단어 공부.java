@@ -17,16 +17,16 @@ public class Main {
 
         String maxKey = "null";
         long maxValue = Long.MIN_VALUE;
-        for (String key : map.keySet())
+        for (String key : map.keySet()) {
             if (map.get(key) > maxValue) {
                 maxKey = key;
                 maxValue = map.get(key);
+            } else if (map.get(key) == maxValue) {
+                maxKey = "?";
             }
+        }
 
-        final long finalValue = maxValue;
-        long count = map.values().stream().filter(value -> value == finalValue).count();
-
-        result.append(count == 1 ? maxKey : "?");
+        result.append(maxKey);
     }
 
     private static void finish() throws IOException {
