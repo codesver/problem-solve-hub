@@ -1,16 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.stream.IntStream;
 
 public class Main {
+
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
+        int numA = Integer.parseInt(reader.readLine());
+        IntStream.rangeClosed(1, 9)
+                .forEach(numB -> result
+                        .append(numA)
+                        .append(" * ")
+                        .append(numB)
+                        .append(" = ")
+                        .append(numA * numB)
+                        .append("\n"));
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(reader.readLine());
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 1; i <= 9; i++)
-            builder.append(num).append(" * ").append(i).append(" = ").append(num * i).append("\n");
-
-        System.out.println(builder);
+        solution();
+        finish();
     }
 }
