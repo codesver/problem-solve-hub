@@ -1,23 +1,34 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+        int numA = Integer.parseInt(tokenizer.nextToken());
+        int numB = Integer.parseInt(tokenizer.nextToken());
+        int numC = Integer.parseInt(tokenizer.nextToken());
 
-        int a = Integer.parseInt(tokenizer.nextToken());
-        int b = Integer.parseInt(tokenizer.nextToken());
-        int c = Integer.parseInt(tokenizer.nextToken());
+        result.append(numA == numB && numB == numC ?
+                10000 + numA * 1000 :
+                numA != numB && numB != numC && numC != numA ?
+                        Math.max(Math.max(numA, numB), numC) * 100 :
+                        1000 + 100 * (numA == numB ? numA : numC)
+        );
+    }
 
-        int prize = a == b && b == c ?
-                10000 + 1000 * a :
-                a != b && b != c && c != a ?
-                        100 * Math.max(Math.max(a, b), c) :
-                        1000 + 100 * (a == b ? a : c);
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
 
-        System.out.println(prize);
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
