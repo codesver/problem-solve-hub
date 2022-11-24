@@ -1,19 +1,31 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int total = Integer.parseInt(reader.readLine());
 
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
+        int total = Integer.parseInt(reader.readLine());
         int num = Integer.parseInt(reader.readLine());
         int sum = 0;
-        for (int i = 0; i < num; i++) {
+        while (num-- > 0) {
             StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
             sum += Integer.parseInt(tokenizer.nextToken()) * Integer.parseInt(tokenizer.nextToken());
         }
-        System.out.println(total == sum ? "Yes" : "No");
+        result.append(total == sum ? "Yes" : "No");
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
