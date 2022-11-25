@@ -1,25 +1,31 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.Arrays;
 
 public class Main {
+
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
+
+    private static void solution() throws IOException {
+        int X = Integer.parseInt(reader.readLine().split(" ")[1]);
+
+        Arrays.stream(reader.readLine().split(" "))
+                .forEach(num -> {
+                    if (Integer.parseInt(num) < X)
+                        result.append(num).append(" ");
+                });
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-
-        int n = Integer.parseInt(tokenizer.nextToken());
-        int x = Integer.parseInt(tokenizer.nextToken());
-
-        tokenizer = new StringTokenizer(reader.readLine());
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < n; i++) {
-            int num = Integer.parseInt(tokenizer.nextToken());
-            if (num < x)
-                builder.append(num).append(" ");
-        }
-
-        System.out.println(builder);
+        solution();
+        finish();
     }
 }
+
