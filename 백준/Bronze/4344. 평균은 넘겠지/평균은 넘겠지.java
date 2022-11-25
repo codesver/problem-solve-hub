@@ -1,35 +1,46 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
 
-        int c = sc.nextInt();
-        int[] arr;
+    private static void solution() throws IOException {
+        int repeat = Integer.parseInt(reader.readLine());
 
-        for (int i = 0; i < c; i++) {
-            int n = sc.nextInt();
-            arr = new int[n];
+        while (repeat-- > 0) {
+            StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+            int size = Integer.parseInt(tokenizer.nextToken());
 
+            List<Integer> scores = new ArrayList<>();
             int sum = 0;
-
-            for (int j = 0; j < n; j++) {
-                int point = sc.nextInt();
-                arr[j] = point;
-                sum += point;
+            while (tokenizer.hasMoreTokens()) {
+                int score = Integer.parseInt(tokenizer.nextToken());
+                scores.add(score);
+                sum += score;
             }
 
-            double avg = (double) sum / n;
-            double cnt = 0;
+            double average = sum / (double) size;
+            long overAverage = scores.stream().filter(score -> score > average).count();
+            double ratio = overAverage / (double) size * 100;
 
-            for (int j = 0; j < n; j++) {
-                if (arr[j] > avg) {
-                    cnt++;
-                }
-            }
-            System.out.printf("%.3f%%\n", cnt / n * 100);
+            result.append(String.format("%.3f", ratio)).append("%").append("\n");
         }
+    }
 
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
+
