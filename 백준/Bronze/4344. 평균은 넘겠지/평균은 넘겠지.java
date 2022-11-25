@@ -25,7 +25,8 @@ public class Main {
             }
 
             double average = sum / (double) size;
-            long overAverage = scores.stream().filter(score -> score > average).count();
+            int overAverage = 0;
+            for (Integer score : scores) overAverage += score > average ? 1 : 0;
             double ratio = overAverage / (double) size * 100;
 
             result.append(String.format("%.3f", ratio)).append("%").append("\n");
