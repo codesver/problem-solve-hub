@@ -1,16 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
-    public static void main(String args[]) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        HashSet<Integer> set = new HashSet<>();
 
-        for (int i = 0; i < 10; i++)
-            set.add(Integer.parseInt(reader.readLine()) % 42);
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static final StringBuilder result = new StringBuilder();
 
-        System.out.println(set.size());
+    private static void solution() throws IOException {
+        Set<Integer> set = new HashSet<>();
+        int repeat = 10;
+        while (repeat-- > 0) set.add(Integer.parseInt(reader.readLine()) % 42);
+        result.append(set.size());
+    }
+
+    private static void finish() throws IOException {
+        writer.write(result.toString());
+        writer.flush();
+        writer.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        solution();
+        finish();
     }
 }
+
