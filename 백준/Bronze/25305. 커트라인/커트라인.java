@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
@@ -16,11 +13,13 @@ public class Main {
         int cutLine = Integer.parseInt(tokenizer.nextToken());
 
         tokenizer = new StringTokenizer(reader.readLine());
-        List<Integer> scores = new ArrayList<>();
-        while (size-- > 0) scores.add(Integer.parseInt(tokenizer.nextToken()));
-        scores.sort(Comparator.comparingInt(o -> -o));
+        Queue<Integer> scores = new PriorityQueue<>();
+        while (size-- > 0) {
+            scores.add(Integer.parseInt(tokenizer.nextToken()));
+            if (scores.size() > cutLine) scores.poll();
+        }
 
-        result.append(scores.get(cutLine - 1));
+        result.append(scores.poll());
     }
 
     private static void finish() throws IOException {
