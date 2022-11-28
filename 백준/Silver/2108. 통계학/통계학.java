@@ -1,8 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class Main {
 
@@ -11,35 +7,46 @@ public class Main {
     public static final StringBuilder result = new StringBuilder();
 
     private static void solution() throws IOException {
-        int repeat = Integer.parseInt(reader.readLine());
+        int size = Integer.parseInt(reader.readLine());
+        int[] counter = new int[8001];
 
-        int sum = 0;
-        List<Integer> memory = new ArrayList<>();
-        List<Integer> counter = new ArrayList<>(Collections.nCopies(8001, 0));
+        double sum = 0;
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
 
-        while (repeat-- > 0) {
+        for (int i = 0; i < size; i++) {
             int num = Integer.parseInt(reader.readLine());
             sum += num;
-            memory.add(num);
-            counter.set(num + 4000, counter.get(num + 4000) + 1);
+            counter[num + 4000]++;
+            max = Math.max(max, num);
+            min = Math.min(min, num);
         }
 
-        memory.sort(Comparator.comparingInt(o -> o));
-        Integer max = counter.stream().max(Comparator.comparingInt(o -> o)).get();
-        int most = counter.indexOf(max) - 4000;
-        for (int i = counter.indexOf(max) + 1; i < counter.size(); i++) {
-            Integer value = counter.get(i);
-            if (value.equals(max)) {
-                most = i - 4000;
-                break;
+        int midCounter = 0, midValue = 0;
+        int maxCount = 0, maxCountValue = 0;
+        boolean isSecond = false;
+        for (int i = min + 4000; i <= max + 4000; i++) {
+            if (counter[i] <= 0) continue;
+
+            if (midCounter < size / 2 + 1) {
+                midCounter += counter[i];
+                midValue = i - 4000;
+            }
+
+            if (counter[i] > maxCount) {
+                maxCount = counter[i];
+                maxCountValue = i - 4000;
+                isSecond = true;
+            } else if (counter[i] == maxCount && isSecond) {
+                maxCountValue = i - 4000;
+                isSecond = false;
             }
         }
 
-        result.append(Math.round(sum / (double) memory.size())).append("\n")
-                .append(memory.get(memory.size() / 2)).append("\n")
-                .append(most).append("\n")
-                .append(memory.get(memory.size() - 1) - memory.get(0));
-
+        result.append(Math.round(sum / size)).append("\n")
+                .append(midValue).append("\n")
+                .append(maxCountValue).append("\n")
+                .append(max - min).append("\n");
     }
 
     private static void finish() throws IOException {
