@@ -12,10 +12,9 @@ public class Main {
         int n = Integer.parseInt(tokenizer.nextToken());
         int k = Integer.parseInt(tokenizer.nextToken());
         int up = 1, down = 1;
-        int count = 0;
-        for (int i = 1; i <= n; i++) {
-            if (i <= k) down *= i;
-            if (count++ < k) up *= n - i + 1;
+        for (int i = 1; i <= k; i++) {
+            up *= n - i + 1;
+            down *= i;
         }
         result.append(up / down);
     }
