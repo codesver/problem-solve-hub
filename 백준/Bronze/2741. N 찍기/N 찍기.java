@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.stream.IntStream;
 
 public class Main {
 
@@ -8,8 +7,8 @@ public class Main {
     private static final StringBuilder result = new StringBuilder();
 
     private static void solution() throws IOException {
-        IntStream.rangeClosed(1, Integer.parseInt(reader.readLine()))
-                .forEach(num -> result.append(num).append("\n"));
+        int limit = Integer.parseInt(reader.readLine());
+        for (int num = 1; num <= limit; num++) result.append(num).append("\n");
     }
 
     private static void finish() throws IOException {
