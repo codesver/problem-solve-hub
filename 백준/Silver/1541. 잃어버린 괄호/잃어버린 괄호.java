@@ -10,10 +10,15 @@ public class Main {
 
     private static void solution() throws IOException {
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine(), "-");
-        int sum = Arrays.stream(tokenizer.nextToken().split("\\+")).mapToInt(Integer::parseInt).sum();
-        while (tokenizer.hasMoreTokens())
-            sum -= Arrays.stream(tokenizer.nextToken().split("\\+")).mapToInt(Integer::parseInt).sum();
+        int sum = summation(tokenizer);
+        while (tokenizer.hasMoreTokens()) sum -= summation(tokenizer);
         result.append(sum);
+    }
+
+    private static int summation(StringTokenizer tokenizer) {
+        return Arrays.stream(tokenizer.nextToken().split("\\+"))
+                .mapToInt(Integer::parseInt)
+                .sum();
     }
 
     private static void finish() throws IOException {
