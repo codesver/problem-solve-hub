@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -8,10 +9,10 @@ public class Main {
     private static final StringBuilder result = new StringBuilder();
 
     private static void solution() throws IOException {
-        String[] split = reader.readLine().split("-");
-        int sum = Arrays.stream(split[0].split("\\+")).mapToInt(Integer::parseInt).sum();
-        for (int i = 1; i < split.length; i++)
-            sum -= Arrays.stream(split[i].split("\\+")).mapToInt(Integer::parseInt).sum();
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine(), "-");
+        int sum = Arrays.stream(tokenizer.nextToken().split("\\+")).mapToInt(Integer::parseInt).sum();
+        while (tokenizer.hasMoreTokens())
+            sum -= Arrays.stream(tokenizer.nextToken().split("\\+")).mapToInt(Integer::parseInt).sum();
         result.append(sum);
     }
 
