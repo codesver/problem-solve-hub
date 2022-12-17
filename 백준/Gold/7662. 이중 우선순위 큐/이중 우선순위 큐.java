@@ -19,7 +19,7 @@ public class Main {
                 tokenizer = new StringTokenizer(reader.readLine());
                 if (tokenizer.nextToken().equals("I")) {
                     int data = Integer.parseInt(tokenizer.nextToken());
-                    Q.put(data, Q.getOrDefault(data, 0) + 1);
+                    Q.merge(data, 1, Integer::sum);
                 } else if (!Q.isEmpty()) {
                     Integer data = Integer.parseInt(tokenizer.nextToken()) == 1 ? Q.lastKey() : Q.firstKey();
                     Integer count = Q.get(data);
