@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -14,21 +16,22 @@ public class Main {
             TreeMap<Integer, Integer> Q = new TreeMap<>();
             StringTokenizer tokenizer;
 
-            int commands = Integer.parseInt(reader.readLine());
-            while (commands-- > 0) {
+            int operations = Integer.parseInt(reader.readLine());
+            while (operations-- > 0) {
                 tokenizer = new StringTokenizer(reader.readLine());
-                if (tokenizer.nextToken().equals("I")) {
-                    int data = Integer.parseInt(tokenizer.nextToken());
-                    Q.merge(data, 1, Integer::sum);
-                } else if (!Q.isEmpty()) {
-                    Integer data = Integer.parseInt(tokenizer.nextToken()) == 1 ? Q.lastKey() : Q.firstKey();
-                    Integer count = Q.get(data);
-                    if (count > 1) Q.put(data, count - 1);
+                if (tokenizer.nextToken().equals("I"))
+                    Q.merge(Integer.parseInt(tokenizer.nextToken()), 1, Integer::sum);
+                else if (!Q.isEmpty()) {
+                    Integer data = Integer.parseInt(tokenizer.nextToken()) == 1 ?
+                            Q.lastKey() :
+                            Q.firstKey();
+                    if (Q.get(data) > 1) Q.merge(data, -1, Integer::sum);
                     else Q.remove(data);
                 }
             }
 
-            result.append(Q.isEmpty() ? "EMPTY" : Q.lastKey() + " " + Q.firstKey()).append("\n");
+            result.append(Q.isEmpty() ? "EMPTY" : Q.lastKey() + " " + Q.firstKey())
+                    .append("\n");
         }
     }
 
