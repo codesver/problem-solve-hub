@@ -1,8 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Stack;
 
 public class Main {
 
@@ -10,70 +10,41 @@ public class Main {
     private static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
     private static final StringBuilder result = new StringBuilder();
 
-    private static int NUM;
-    private final static List<Info> infos = new ArrayList<>();
+    private static int[] counts;
+    private static int[] parents;
 
     private static void solution() throws IOException {
-        init();
-        IntStream.range(1, NUM).boxed()
-                .sorted(Comparator.reverseOrder())
-                .forEach(Main::ignition);
-        solve();
+        final int NUM = Integer.parseInt(reader.readLine());
+        counts = new int[NUM + 1];
+        parents = new int[NUM + 1];
+
+        for (int num = NUM - 1; num >= 1; num--) {
+            if (num * 3 <= NUM) ignition(num, num * 3, num * 2, num + 1);
+            else if (num * 2 <= NUM) ignition(num, num * 2, num + 1);
+            else ignition(num, num + 1);
+        }
+
+        int num = 1;
+        Stack<Integer> nums = new Stack<>();
+        while (num != 0) {
+            nums.push(num);
+            num = parents[num];
+        }
+        result.append(counts[1]).append("\n");
+        while (!nums.isEmpty()) result.append(nums.pop()).append(" ");
     }
 
-    private static void init() throws IOException {
-        NUM = Integer.parseInt(reader.readLine());
-        IntStream.rangeClosed(0, NUM).forEach(num -> infos.add(new Info(num)));
-    }
-
-    private static void ignition(int num) {
-        infos.get(num)
-                .addInfo(num * 3 <= NUM ?
-                                minInfo(infos.get(num * 3), infos.get(num * 2), infos.get(num + 1)) :
-                                num * 2 <= NUM ?
-                                        minInfo(infos.get(num * 2), infos.get(num + 1)) :
-                                        infos.get(num + 1)
-                );
-    }
-
-    private static Info minInfo(Info... infos) {
+    private static void ignition(int child, int... nums) {
         int minCount = Integer.MAX_VALUE;
-        Info minInfo = null;
-        for (Info info : infos) {
-            if (minCount > info.count) {
-                minCount = info.count;
-                minInfo = info;
+        int parent = 0;
+        for (int num : nums) {
+            if (minCount > counts[num]) {
+                minCount = counts[num];
+                parent = num;
             }
         }
-        return minInfo;
-    }
-
-    private static void solve() {
-        Info info = infos.get(1);
-        result.append(info.count).append("\n");
-        result.append(info);
-    }
-
-    static class Info {
-
-        int num = 0;
-        int count = 0;
-        Info parent = null;
-
-        public Info(int num) {
-            this.num = num;
-        }
-
-        public void addInfo(Info info) {
-            parent = info;
-            count = info.count + 1;
-        }
-
-        @Override
-        public String toString() {
-            if (parent != null) return parent + " " + num;
-            else return String.valueOf(num);
-        }
+        parents[child] = parent;
+        counts[child] = counts[parent] + 1;
     }
 
     private static void finish() throws IOException {
