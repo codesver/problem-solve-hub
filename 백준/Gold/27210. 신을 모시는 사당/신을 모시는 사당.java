@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -9,14 +10,12 @@ public class Main {
 
     private static void solution() throws IOException {
         int N = Integer.parseInt(reader.readLine());
-        int[] dirs = Arrays.stream(reader.readLine().split(" "))
-                .mapToInt(Integer::parseInt).toArray();
-        
+        StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         int maxLeft = 0, maxRight = 0;
         int sumLeft = 0, sumRight = 0;
 
-        for (int dir : dirs) {
-            if (dir == 1) {
+        while (tokenizer.hasMoreTokens()) {
+            if (Integer.parseInt(tokenizer.nextToken()) == 1) {
                 sumLeft = Math.max(sumLeft + 1, 1);
                 maxLeft = Math.max(maxLeft, sumLeft);
                 sumRight--;
@@ -26,6 +25,7 @@ public class Main {
                 sumLeft--;
             }
         }
+        
         result.append(Math.max(maxLeft, maxRight));
     }
 
