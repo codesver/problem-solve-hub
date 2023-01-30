@@ -21,13 +21,9 @@ public class Main {
                 if (nums[j] < nums[i]) {
                     left[i] = Math.max(left[i], left[j] + 1);
                 }
-            }
-        }
 
-        for (int i = L - 2; i >= 0; i--) {
-            for (int j = L - 1; j > i; j--) {
-                if (nums[j] < nums[i]) {
-                    right[i] = Math.max(right[i], right[j] + 1);
+                if (nums[L - j - 1] < nums[L - i - 1]) {
+                    right[L - i - 1] = Math.max(right[L - i - 1], right[L - j - 1] + 1);
                 }
             }
         }
