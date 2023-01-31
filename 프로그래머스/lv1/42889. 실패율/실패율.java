@@ -7,7 +7,7 @@ class Solution {
                 .rangeClosed(1, N)
                 .mapToObj(Stage::new)
                 .peek(stage -> stage.update(S))
-                .sorted(Comparator.comparingDouble(s -> -s.average))
+                .sorted(Comparator.comparingDouble(s -> -s.failure))
                 .mapToInt(Stage::getNum).toArray();
     }
 }
@@ -16,7 +16,7 @@ class Stage {
 
     int num;
     int arrive = 0, trial = 0;
-    double average;
+    double failure;
 
     public Stage(int num) {
         this.num = num;
@@ -31,7 +31,7 @@ class Stage {
     }
 
     public void calcAvg() {
-        average = arrive == 0 ? 0 : trial / (double) arrive;
+        failure = arrive == 0 ? 0 : trial / (double) arrive;
     }
 
     public int getNum() {
