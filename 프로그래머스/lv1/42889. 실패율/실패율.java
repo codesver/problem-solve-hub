@@ -10,7 +10,6 @@ class Solution {
                 .collect(Collectors.toList())
                 .stream()
                 .peek(stage -> stage.update(S))
-                .peek(Stage::calcAvg)
                 .sorted(Comparator.comparingDouble(s -> -s.average))
                 .mapToInt(Stage::getNum).toArray();
     }
@@ -31,6 +30,7 @@ class Stage {
             if (s >= num) arrive++;
             if (s == num) trial++;
         }
+        calcAvg();
     }
 
     public void calcAvg() {
