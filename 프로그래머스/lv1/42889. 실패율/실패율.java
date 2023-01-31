@@ -1,5 +1,4 @@
 import java.util.Comparator;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 class Solution {
@@ -7,8 +6,6 @@ class Solution {
         return IntStream
                 .rangeClosed(1, N)
                 .mapToObj(Stage::new)
-                .collect(Collectors.toList())
-                .stream()
                 .peek(stage -> stage.update(S))
                 .sorted(Comparator.comparingDouble(s -> -s.average))
                 .mapToInt(Stage::getNum).toArray();
