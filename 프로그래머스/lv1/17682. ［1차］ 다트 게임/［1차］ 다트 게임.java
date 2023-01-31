@@ -2,11 +2,11 @@ import java.util.Stack;
 
 class Solution {
 
-    Stack<Integer> nums = new Stack<>() {{
-        push(0);
-    }};
-
     public int solution(String dartResult) {
+        Stack<Integer> nums = new Stack<>() {{
+            push(0);
+        }};
+
         dartResult.replaceAll("10", "+").chars().forEach(ch -> {
             if (Character.isDigit(ch)) nums.add(Character.getNumericValue(ch));
             else if (Character.isAlphabetic(ch)) nums.push((int) Math.pow(nums.pop(), ch != 'S' ? ch / 28 : 1));
@@ -18,6 +18,7 @@ class Solution {
                 nums.push(top);
             }
         });
+
         return nums.stream().mapToInt(Integer::intValue).sum();
     }
 
