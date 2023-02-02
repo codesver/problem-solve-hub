@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -14,7 +13,7 @@ public class Main {
 
     private static void solution() throws IOException {
         init();
-        block();
+        block(0, 0, 0);
         result.append(room);
     }
 
@@ -31,11 +30,7 @@ public class Main {
         }
     }
 
-    private static void block() {
-        dfs(0, 0, 0);
-    }
-
-    private static void dfs(int sr, int sc, int count) {
+    private static void block(int sr, int sc, int count) {
         if (count == 3) {
             searchVirus();
             countRooms();
@@ -43,7 +38,7 @@ public class Main {
             for (int c = r == sr ? sc : 1; c <= C; c++) {
                 if (lab[r][c] == 0) {
                     lab[r][c] = 8;
-                    dfs(c == C ? r + 1 : r, c == C ? 1 : c + 1, count + 1);
+                    block(c == C ? r + 1 : r, c == C ? 1 : c + 1, count + 1);
                     lab[r][c] = 0;
                 }
             }
@@ -55,9 +50,7 @@ public class Main {
 
         for (int r = 1; r <= R; r++) {
             for (int c = 1; c <= C; c++) {
-                if (virus[r][c] == 2) {
-                    infection(r, c);
-                }
+                if (virus[r][c] == 2) infection(r, c);
             }
         }
     }
