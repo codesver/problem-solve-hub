@@ -12,10 +12,9 @@ class Solution {
         Stack<Integer> sub = new Stack<>();
 
         return (int) Arrays.stream(order).takeWhile(box -> {
-            while (!main.isEmpty() && main.peek() <= box) {
+            while (!main.isEmpty() && main.peek() <= box)
                 if (main.peek() == box) return main.poll() > 0;
-                sub.push(main.poll());
-            }
+                else sub.push(main.poll());
             return !sub.isEmpty() && sub.peek() == box && sub.pop() > 0;
         }).count();
     }
