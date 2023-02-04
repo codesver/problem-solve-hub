@@ -12,11 +12,11 @@ class Solution {
         Stack<Integer> sub = new Stack<>();
 
         return (int) Arrays.stream(order).takeWhile(box -> {
-            if (!sub.isEmpty() && sub.peek() == box) return sub.pop() > 0;
-            else while (!main.isEmpty() && main.peek() <= box)
+            while (!main.isEmpty() && main.peek() <= box) {
                 if (main.peek() == box) return main.poll() > 0;
-                else sub.push(main.poll());
-            return false;
+                sub.push(main.poll());
+            }
+            return !sub.isEmpty() && sub.peek() == box && sub.pop() > 0;
         }).count();
     }
 }
