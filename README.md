@@ -5,4 +5,5 @@ This is a auto push repository for Baekjoon Online Judge created with [BaekjoonH
 
 하루 한 문제(commit) 실천하기
 
-플래티넘 찍기
+백준 Gold
+프로그래머스 Lv.2
