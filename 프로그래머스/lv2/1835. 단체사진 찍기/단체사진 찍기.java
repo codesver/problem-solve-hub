@@ -9,11 +9,7 @@ class Solution {
 
     public int solution(int n, String[] data) {
         this.data = data;
-        for (int f = 0; f < 8; f++) {
-            line.push(friends[f]);
-            lining();
-            line.pop();
-        }
+        lining();
         return count;
     }
 
