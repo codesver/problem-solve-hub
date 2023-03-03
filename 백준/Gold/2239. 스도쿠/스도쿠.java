@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class Main {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -25,7 +24,8 @@ public class Main {
 
     private void init() throws IOException {
         for (int r = 0; r < 9; r++) {
-            int[] row = Arrays.stream(reader.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+            int[] row = Arrays.stream(reader.readLine().split(""))
+                    .mapToInt(Integer::parseInt).toArray();
             for (int c = 0; c < 9; c++) {
                 if ((board[r][c] = row[c]) != 0) {
                     int visitBit = 1 << board[r][c] - 1;
