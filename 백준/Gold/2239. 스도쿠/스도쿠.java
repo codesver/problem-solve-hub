@@ -25,13 +25,11 @@ public class Main {
     }
 
     private boolean search(int row, int col) {
-        if (initBoard[row][col] != 0) {
-            if (row + col == 16) return true;
-            return search(col + 1 == 9 ? row + 1 : row, (col + 1) % 9);
-        } else for (int n = 1; n <= 9; n++) {
+        if (initBoard[row][col] != 0) return (row + col == 16 || search(col + 1 == 9 ? row + 1 : row, (col + 1) % 9));
+        else for (int n = 1; n <= 9; n++) {
             board[row][col] = n;
-            if (validation(row, col))
-                if (row + col == 16 || search(col + 1 == 9 ? row + 1 : row, (col + 1) % 9)) return true;
+            if (validation(row, col) && (row + col == 16 || search(col + 1 == 9 ? row + 1 : row, (col + 1) % 9)))
+                return true;
         }
         board[row][col] = 0;
         return false;
