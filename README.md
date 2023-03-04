@@ -6,6 +6,6 @@ BOJ / Programmers Solution HUB
 
 2 Commit / Day
 
-Current State |
-BOJ Gold
+Current State
+BOJ Gold 3
 Programmers Lv.2
