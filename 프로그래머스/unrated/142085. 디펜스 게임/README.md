@@ -1,10 +1,10 @@
 # [unrated] 디펜스 게임 - 142085 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/142085) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/142085#) 
 
 ### 성능 요약
 
-메모리: 80 MB, 시간: 4.21 ms
+메모리: 78.1 MB, 시간: 0.77 ms
 
 ### 구분
 
