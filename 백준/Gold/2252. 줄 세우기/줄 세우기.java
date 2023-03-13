@@ -3,6 +3,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+class Student {
+
+    int sno, degrees;
+    Set<Integer> students = new HashSet<>();
+
+    public Student(int sno) {
+        this.sno = sno;
+    }
+}
+
 public class Main {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -14,29 +24,30 @@ public class Main {
         int N = Integer.parseInt(tokenizer.nextToken());
         int M = Integer.parseInt(tokenizer.nextToken());
 
-        int[] inDegrees = new int[N + 1];
-        Map<Integer, Set<Integer>> map = IntStream.rangeClosed(1, N).boxed()
-                .collect(Collectors.toMap(n -> n, n -> new HashSet<>()));
+        Map<Integer, Student> map = IntStream.rangeClosed(1, N).boxed()
+                .collect(Collectors.toMap(n -> n, Student::new));
 
         while (M-- > 0) {
             tokenizer = new StringTokenizer(reader.readLine());
             int smaller = Integer.parseInt(tokenizer.nextToken());
             int bigger = Integer.parseInt(tokenizer.nextToken());
 
-            inDegrees[bigger]++;
-            map.get(smaller).add(bigger);
+            map.get(bigger).degrees++;
+            map.get(smaller).students.add(bigger);
         }
 
-        int count = N;
-        while (count != 0) {
-            for (int n = 1; n <= N; n++) {
-                if (inDegrees[n] == 0) {
-                    inDegrees[n]--;
-                    result.append(n).append(" ");
-                    count--;
-                    for (Integer bigger : map.get(n)) inDegrees[bigger]--;
-                }
+        Queue<Student> students = map.values().stream()
+                .filter(student -> student.degrees == 0)
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        while (!students.isEmpty()) {
+            Student student = students.poll();
+            for (int sno : student.students) {
+                Student bigger = map.get(sno);
+                bigger.degrees--;
+                if (bigger.degrees == 0) students.offer(bigger);
             }
+            result.append(student.sno).append(" ");
         }
     }
 
