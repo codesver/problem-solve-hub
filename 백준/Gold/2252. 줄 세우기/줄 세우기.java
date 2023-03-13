@@ -3,16 +3,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-class Student {
-
-    int sno, degrees;
-    Set<Integer> students = new HashSet<>();
-
-    public Student(int sno) {
-        this.sno = sno;
-    }
-}
-
 public class Main {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -24,30 +14,28 @@ public class Main {
         int N = Integer.parseInt(tokenizer.nextToken());
         int M = Integer.parseInt(tokenizer.nextToken());
 
-        Map<Integer, Student> map = IntStream.rangeClosed(1, N).boxed()
-                .collect(Collectors.toMap(n -> n, Student::new));
+        List<Integer> degrees = new ArrayList<>();
+        Map<Integer, List<Integer>> next = new HashMap<>();
+
+        for (int nno = 1; nno <= N; nno++) {
+            degrees.add(0);
+            next.put(nno, new ArrayList<>());
+        }
 
         while (M-- > 0) {
             tokenizer = new StringTokenizer(reader.readLine());
             int smaller = Integer.parseInt(tokenizer.nextToken());
             int bigger = Integer.parseInt(tokenizer.nextToken());
-
-            map.get(bigger).degrees++;
-            map.get(smaller).students.add(bigger);
+            degrees.set(bigger - 1, degrees.get(bigger - 1) + 1);
+            next.get(smaller).add(bigger);
         }
 
-        Queue<Student> students = map.values().stream()
-                .filter(student -> student.degrees == 0)
-                .collect(Collectors.toCollection(LinkedList::new));
-
-        while (!students.isEmpty()) {
-            Student student = students.poll();
-            for (int sno : student.students) {
-                Student bigger = map.get(sno);
-                bigger.degrees--;
-                if (bigger.degrees == 0) students.offer(bigger);
-            }
-            result.append(student.sno).append(" ");
+        Queue<Integer> readies = IntStream.rangeClosed(1, N).boxed()
+                .filter(n -> degrees.get(n - 1) == 0).collect(Collectors.toCollection(LinkedList::new));
+        while (!readies.isEmpty()) {
+            for (int nno : next.get(readies.peek()))
+                if (degrees.set(nno - 1, degrees.get(nno - 1) - 1) == 1) readies.offer(nno);
+            result.append(readies.poll()).append(" ");
         }
     }
 
