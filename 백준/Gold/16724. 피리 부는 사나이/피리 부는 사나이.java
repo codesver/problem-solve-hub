@@ -9,7 +9,6 @@ public class Main {
     private final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
     private final StringBuilder result = new StringBuilder();
 
-    int[][] state;
     char[][] map;
 
     public void solve() throws IOException {
@@ -17,31 +16,30 @@ public class Main {
         int R = Integer.parseInt(tokenizer.nextToken());
         int C = Integer.parseInt(tokenizer.nextToken());
 
-        state = new int[R][C];
         map = new char[R][C];
         for (int r = 0; r < R; r++) map[r] = reader.readLine().toCharArray();
 
         int count = 0;
         for (int r = 0; r < R; r++)
             for (int c = 0; c < C; c++)
-                if (state[r][c] == 0 && search(r, c)) count++;
+                if (map[r][c] != 'O' && map[r][c] != 'X' && search(r, c)) count++;
 
         result.append(count);
     }
 
     private boolean search(int r, int c) {
-        int state = this.state[r][c];
-        this.state[r][c] = 1;
+        char type = map[r][c];
+        map[r][c] = 'X';
 
         boolean flag;
-        if (state == 1) flag = true;
-        else if (state == 2) flag = false;
-        else if (map[r][c] == 'U') flag = search(r - 1, c);
-        else if (map[r][c] == 'R') flag = search(r, c + 1);
-        else if (map[r][c] == 'D') flag = search(r + 1, c);
+        if (type == 'X') flag = true;
+        else if (type == 'O') flag = false;
+        else if (type == 'U') flag = search(r - 1, c);
+        else if (type == 'R') flag = search(r, c + 1);
+        else if (type == 'D') flag = search(r + 1, c);
         else flag = search(r, c - 1);
 
-        this.state[r][c] = 2;
+        map[r][c] = 'O';
         return flag;
     }
 
