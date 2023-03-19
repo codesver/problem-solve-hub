@@ -14,7 +14,7 @@ public class Main {
         int N = Integer.parseInt(reader.readLine());
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
 
-        List<Integer> list = new ArrayList<>(Collections.singletonList(0));
+        List<Integer> list = new ArrayList<>(Collections.singleton(0));
         for (int n = 1; n <= N; n++) {
             int num = Integer.parseInt(tokenizer.nextToken());
             if (list.get(list.size() - 1) < num) list.add(num);
@@ -31,7 +31,7 @@ public class Main {
             if (list.get(mid) >= num) right = mid;
             else left = mid + 1;
         }
-        list.set(right, num);
+        list.set(left, num);
     }
 
     private void finish() throws IOException {
