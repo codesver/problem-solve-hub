@@ -10,7 +10,6 @@ public class Main {
 
     private final int[][] moves = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
-    int ROW, COL;
     int[] robot;
     int[][] map;
 
@@ -59,14 +58,14 @@ public class Main {
 
     private void init() throws IOException {
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-        ROW = Integer.parseInt(tokenizer.nextToken());
-        COL = Integer.parseInt(tokenizer.nextToken());
+        int N = Integer.parseInt(tokenizer.nextToken());
+        int M = Integer.parseInt(tokenizer.nextToken());
         robot = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        map = new int[ROW][COL];
+        map = new int[N][M];
 
-        for (int r = 0; r < ROW; r++) {
+        for (int r = 0; r < N; r++) {
             tokenizer = new StringTokenizer(reader.readLine());
-            for (int c = 0; c < COL; c++) map[r][c] = Integer.parseInt(tokenizer.nextToken());
+            for (int c = 0; c < M; c++) map[r][c] = Integer.parseInt(tokenizer.nextToken());
         }
     }
 
