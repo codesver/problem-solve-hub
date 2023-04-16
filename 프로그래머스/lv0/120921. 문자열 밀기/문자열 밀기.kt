@@ -1,5 +1,3 @@
 class Solution {
-    fun solution(A: String, B: String): Int {
-        return (B + B).indexOf(A)
-    }
-}
+    fun solution(A: String, B: String): Int = (B + B).indexOf(A)
+}   
