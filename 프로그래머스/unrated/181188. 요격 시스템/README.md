@@ -1,10 +1,10 @@
 # [unrated] 요격 시스템 - 181188 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181188?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181188?language=kotlin) 
 
 ### 성능 요약
 
-메모리: 72 MB, 시간: 3.76 ms
+메모리: 61.7 MB, 시간: 6.50 ms
 
 ### 구분
 
