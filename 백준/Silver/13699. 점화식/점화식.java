@@ -1,15 +1,11 @@
 import java.io.*;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
     private final StringBuilder result = new StringBuilder();
-
-    private Map<Integer, BigInteger> memory = new HashMap<>();
 
     public void solve() throws IOException {
         int N = Integer.parseInt(reader.readLine());
