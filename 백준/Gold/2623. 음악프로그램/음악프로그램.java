@@ -11,38 +11,35 @@ public class Main {
 
     public void solve() throws IOException {
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-        int singerNum = Integer.parseInt(tokenizer.nextToken());
+        int nodeNum = Integer.parseInt(tokenizer.nextToken());
         int pdNum = Integer.parseInt(tokenizer.nextToken());
 
-        int[] preSingerNum = new int[singerNum + 1];
-        Map<Integer, Set<Integer>> nextSingers = IntStream.rangeClosed(1, singerNum).boxed()
+        int[] degrees = new int[nodeNum + 1];
+        Map<Integer, Set<Integer>> nextNodes = IntStream.rangeClosed(1, nodeNum).boxed()
                 .collect(Collectors.toMap(n -> n, n -> new HashSet<>()));
 
         while (pdNum-- > 0) {
             tokenizer = new StringTokenizer(reader.readLine());
-            int sortedSingerNum = Integer.parseInt(tokenizer.nextToken());
-            int preSinger = Integer.parseInt(tokenizer.nextToken()), postSinger;
-            while (sortedSingerNum-- > 1) {
-                postSinger = Integer.parseInt(tokenizer.nextToken());
-                if (nextSingers.get(preSinger).add(preSinger = postSinger)) preSingerNum[postSinger]++;
+            int pd = Integer.parseInt(tokenizer.nextToken());
+            int preNode = Integer.parseInt(tokenizer.nextToken()), postNode;
+            while (pd-- > 1) {
+                postNode = Integer.parseInt(tokenizer.nextToken());
+                if (nextNodes.get(preNode).add(postNode)) degrees[postNode]++;
+                preNode = postNode;
             }
         }
 
-        List<Integer> singers = new ArrayList<>();
-        Queue<Integer> prepared = IntStream.rangeClosed(1, singerNum)
-                .filter(n -> preSingerNum[n] == 0).boxed()
+        List<Integer> sequence = new ArrayList<>();
+        Queue<Integer> zeroes = IntStream.rangeClosed(1, nodeNum).filter(n -> degrees[n] == 0).boxed()
                 .collect(Collectors.toCollection(LinkedList::new));
-        while (!prepared.isEmpty()) {
-            int node = prepared.poll();
-            singers.add(node);
-            nextSingers.get(node).stream()
-                    .peek(n -> preSingerNum[n]--)
-                    .filter(n -> preSingerNum[n] == 0)
-                    .forEach(prepared::offer);
+        while (!zeroes.isEmpty()) {
+            int node = zeroes.poll();
+            sequence.add(node);
+            nextNodes.get(node).stream().peek(n -> degrees[n]--).filter(n -> degrees[n] == 0).forEach(zeroes::offer);
         }
 
-        result.append(singers.size() == singerNum ?
-                singers.stream().map(String::valueOf).collect(Collectors.joining(" ")) : 0);
+        result.append(sequence.size() == nodeNum ?
+                sequence.stream().map(String::valueOf).collect(Collectors.joining(" ")) : 0);
     }
 
     private void finish() throws IOException {
