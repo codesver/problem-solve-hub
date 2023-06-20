@@ -12,12 +12,10 @@ public class Main {
         if (NUM == 1) result.append(0);
         else {
             boolean[] isNotPrime = new boolean[NUM + 1];
-            int[] primes = IntStream.rangeClosed(2, NUM).filter(num -> {
-                if (!isNotPrime[num])
-                    for (int n = num + num; n <= NUM; n += num)
-                        isNotPrime[n] = true;
-                return !isNotPrime[num];
-            }).toArray();
+            for (int n = 2; n <= NUM; n++)
+                if (!isNotPrime[n])
+                    for (int ne = n + n; ne <= NUM; ne += n) isNotPrime[ne] = true;
+            int[] primes = IntStream.rangeClosed(2, NUM).filter(num -> !isNotPrime[num]).toArray();
             int front = 0, back = 1, sum = primes[0], count = 0;
             while (true) {
                 if (sum >= NUM) {

@@ -8,7 +8,7 @@
 
 ### 분류
 
-수학(math), 정수론(number_theory), 소수 판정(primality_test), 에라토스테네스의 체(sieve), 두 포인터(two_pointer)
+수학, 정수론, 소수 판정, 에라토스테네스의 체, 두 포인터
 
 ### 문제 설명
 
