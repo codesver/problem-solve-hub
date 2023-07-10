@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.StringTokenizer;
-import java.util.stream.IntStream;
 
 public class Main {
 
@@ -47,50 +46,59 @@ public class Main {
 
 class DancePlant {
 
-    private int startRow, startCol, endRow, endCol;
+    private int sr, sc, er, ec;
     private final int[][] stage;
     private int energy;
 
+    private final char[] chars = {'U', 'D', 'L', 'R'};
+
     public DancePlant(int size, int[][] stage) {
         this.stage = stage;
-        startRow = startCol = size / 2 - 1;
-        endRow = endCol = size / 2;
+        sr = sc = size / 2 - 1;
+        er = ec = size / 2;
     }
 
     public char dance() {
-        int up = startRow == 0 ? 0 : IntStream.rangeClosed(startCol, endCol).map(c -> stage[startRow - 1][c]).sum();
-        int down = endRow == stage.length - 1 ? 0 : IntStream.rangeClosed(startCol, endCol).map(c -> stage[endRow + 1][c]).sum();
-        int left = startCol == 0 ? 0 : IntStream.rangeClosed(startRow, endRow).map(r -> stage[r][startCol - 1]).sum();
-        int right = endCol == stage[0].length - 1 ? 0 : IntStream.rangeClosed(startRow, endRow).map(r -> stage[r][endCol + 1]).sum();
-
-        int energy = 0;
+        int maxEnergy = 0;
         char direction = ' ';
-        if (up > energy) {
-            energy = up;
-            direction = 'U';
-        }
-        if (down > energy) {
-            energy = down;
-            direction = 'D';
-        }
-        if (left > energy) {
-            energy = left;
-            direction = 'L';
-        }
-        if (right > energy) {
-            energy = right;
-            direction = 'R';
+        for (int dir = 0; dir < 4; dir++) {
+            int sum = sideSum(dir);
+            if (sum > maxEnergy) {
+                maxEnergy = sum;
+                direction = chars[dir];
+            }
         }
 
-        this.energy += energy;
+        energy += maxEnergy;
         switch (direction) {
-            case 'U' -> startRow--;
-            case 'D' -> endRow++;
-            case 'L' -> startCol--;
-            case 'R' -> endCol++;
+            case 'U' -> sr--;
+            case 'D' -> er++;
+            case 'L' -> sc--;
+            case 'R' -> ec++;
         }
 
         return direction;
+    }
+
+    private int sideSum(int dir) {
+        return switch (dir) {
+            case 0 -> sum(sc, ec, sr - 1, true);
+            case 1 -> sum(sc, ec, er + 1, true);
+            case 2 -> sum(sr, er, sc - 1, false);
+            case 3 -> sum(sr, er, ec + 1, false);
+            default -> throw new IllegalArgumentException("Should not reach here");
+        };
+    }
+
+    private int sum(int from, int to, int base, boolean vertical) {
+        try {
+            int sum = 0;
+            for (int i = from; i <= to; i++)
+                sum += stage[vertical ? base : i][vertical ? i : base];
+            return sum;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return 0;
+        }
     }
 
     public int getEnergy() {
