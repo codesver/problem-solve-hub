@@ -10,11 +10,13 @@ public class Main {
     private final StringBuilder result = new StringBuilder();
 
     public void solve() throws IOException {
+        // Input : N -> Row size, M -> Column size, R -> Number of command
         StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
         int N = Integer.parseInt(tokenizer.nextToken());
         int M = Integer.parseInt(tokenizer.nextToken());
         int R = Integer.parseInt(tokenizer.nextToken());
 
+        // Input : Base array
         int[][] array = new int[N][M];
         for (int n = 0; n < N; n++) {
             tokenizer = new StringTokenizer(reader.readLine());
@@ -23,16 +25,19 @@ public class Main {
             }
         }
 
-        Array2D array2D = new Array2D(array);
+        ArrayConverter arrayConverter = new ArrayConverter(array);
 
+        // Input : Command Type -> Convert array with by command
         tokenizer = new StringTokenizer(reader.readLine());
         while (R-- > 0) {
             int command = Integer.parseInt(tokenizer.nextToken());
-            array2D.convert(command);
+            arrayConverter.convert(command);
         }
 
-        array = array2D.getArray();
+        // Get final array after following every command
+        array = arrayConverter.getArray();
 
+        // Output : Print final array
         for (int[] nums : array) {
             for (int num : nums) result.append(num).append(" ");
             result.append('\n');
@@ -52,12 +57,15 @@ public class Main {
     }
 }
 
-class Array2D {
+/**
+ * Do converting calculations of 2D int array
+ */
+class ArrayConverter {
 
     private final List<Element> elements = new ArrayList<>();
     private int rowSize, colSize;
 
-    public Array2D(int[][] elements) {
+    public ArrayConverter(int[][] elements) {
         rowSize = elements.length;
         colSize = elements[0].length;
         for (int r = 0; r < rowSize; r++)
@@ -65,16 +73,24 @@ class Array2D {
                 this.elements.add(new Element(r, c, elements[r][c]));
     }
 
+    /**
+     * Get array of current state
+     * @return Current array
+     */
     public int[][] getArray() {
         int[][] array = new int[rowSize][colSize];
         elements.forEach(element -> array[element.row][element.col] = element.data);
         return array;
     }
 
+    /**
+     * Reads command and convert array
+     * @param command Command type 1, 2, 3, 4, 5, 6
+     */
     public void convert(int command) {
         switch (command) {
-            case 1 -> reverseVertical();
-            case 2 -> reverseHorizontal();
+            case 1 -> invertVertical();
+            case 2 -> invertHorizontal();
             case 3 -> rotateClockwise();
             case 4 -> rotateCounterClockwise();
             case 5 -> rotateSectionClockwise();
@@ -82,14 +98,23 @@ class Array2D {
         }
     }
 
-    private void reverseVertical() {
+    /**
+     * Invert array in vertical direction
+     */
+    private void invertVertical() {
         elements.forEach(element -> element.row = rowSize - element.row - 1);
     }
 
-    private void reverseHorizontal() {
+    /**
+     * Invert array in horizontal direction
+     */
+    private void invertHorizontal() {
         elements.forEach(element -> element.col = colSize - element.col - 1);
     }
 
+    /**
+     * Rotate array in clockwise based on middle of array
+     */
     private void rotateClockwise() {
         elements.forEach(element -> {
             int preRow = element.row;
@@ -101,6 +126,9 @@ class Array2D {
         colSize = preRowSize;
     }
 
+    /**
+     * Rotate array in counterclockwise based on middle of array
+     */
     private void rotateCounterClockwise() {
         elements.forEach(element -> {
             int preCol = element.col;
@@ -112,6 +140,9 @@ class Array2D {
         rowSize = preColSize;
     }
 
+    /**
+     * Rotate array by section (1 -> 2 -> 3 -> 4 -> 1)
+     */
     private void rotateSectionClockwise() {
         elements.forEach(element -> {
             switch (checkSection(element)) {
@@ -123,6 +154,9 @@ class Array2D {
         });
     }
 
+    /**
+     * Rotate array by section (1 -> 4 -> 3 -> 2 -> 1)
+     */
     private void rotateSectionCounterClockwise() {
         elements.forEach(element -> {
             switch (checkSection(element)) {
@@ -134,6 +168,11 @@ class Array2D {
         });
     }
 
+    /**
+     * Check the element section
+     * @param element Element with row and column
+     * @return Section number (1, 2, 3, 4)
+     */
     private int checkSection(Element element) {
         if (element.row < rowSize / 2 && element.col < colSize / 2) return 1;
         else if (element.row < rowSize / 2) return 2;
